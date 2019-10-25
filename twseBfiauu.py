@@ -1,6 +1,6 @@
 import datetime
-import time
 import random
+import time
 import requests
 
 
@@ -17,9 +17,9 @@ def main():
 
     date_start = "20191001"
     date = datetime.datetime(int(date_start[:4]), int(date_start[4:6]), int(date_start[6:]))
-    date_now = datetime.datetime.now()
+    date_utc8_now = datetime.datetime.utcnow() + datetime.timedelta(hours=8)
 
-    while date <= date_now:
+    while date <= date_utc8_now:
         date_string = date.strftime("%Y%m%d")
         print(f"Going to get BFIAUU at date {date_string}.")
         url_BFIAUU3 = f"&_={str(int(time.time() * 1000))}"  # timestamp, seems not necessary
