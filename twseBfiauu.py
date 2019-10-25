@@ -22,7 +22,7 @@ def main():
     while date <= date_now:
         date_string = date.strftime("%Y%m%d")
         print(f"Going to get BFIAUU at date {date_string}.")
-        url_BFIAUU3 = f"&_={str(int(time.time() * 1000))}"  # this parameter seems not necessary
+        url_BFIAUU3 = f"&_={str(int(time.time() * 1000))}"  # timestamp, seems not necessary
         url = f"{url_BFIAUU1}{date_string}{url_BFIAUU2}{url_BFIAUU3}"
 
         try:
@@ -41,7 +41,7 @@ def main():
         # file = open(filename, 'wb')
         # file.write(res.content)
         # file.close()
-        
+
         # json
         res_json = res.json()
         filename = f"BFIAUU{date_string}.csv"
@@ -51,21 +51,17 @@ def main():
             print("key 'data' not in res_json, retry.")
             continue
 
+        # names of columns, add quotes to let commas and values more clearly.
+        file.write("\"" + "\",\"".join(res_json['fields']) + "\"\n")
         for row in res_json['data']:
-            # columns are
-            # res_json['fields'][0] "Security Code"
-            # res_json['fields'][1] "Trading Classification"
-            # res_json['fields'][2] "Trade Price"
-            # res_json['fields'][3] "Trade Volume"
-            # res_json['fields'][4] "Trade Value"
-
-            file.write(",".join(row) + "\n")
+            # values, add quotes to let commas and values more clearly.
+            file.write("\"" + "\",\"".join(row) + "\"\n")
         file.close()
 
         print("Sleeping...")
         time.sleep(random.randint(sleep_min, sleep_max))  # sleep for a while for preventing blocked by twse
         date += datetime.timedelta(days=1)
-    
+
     print(f"Finished all jos, last date is {date_string}")
 
 
