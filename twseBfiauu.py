@@ -31,6 +31,10 @@ def main():
             print("Can not connect to twse, need wait and retry.")
             time.sleep(random.randint(sleep_min, sleep_max))
             continue
+        except Exception as e:
+            print("Other Exception.")
+            print(e.message)
+            continue
 
         # html
         # I think just need to parse tags <tbody></tbody> and <td></td>.
